@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello World Google Maps Demo</title>
+    <style>
+        #map {
+            height: 650px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Hello World Google Maps Demo</h1>
+    <div id="map"></div>
+    <script>
+        // Initialize and add the map
+        function initMap() {
+          // The location of Chicago
+          var chicago = {lat: 41.8781, lng: -87.6298};
+          // The map, centered at Chicago
+          var map = new google.maps.Map(
+              document.getElementById('map'), {zoom: 4, center: chicago});
+          // The marker, positioned at Chicago
+          var marker = new google.maps.Marker({position: chicago, map: map, icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'});
+
+          var infoWindow = new google.maps.InfoWindow({
+              content: '<h1>Chicago, IL</h1>'
+          });
+
+          marker.addListener('click', function(){
+              infoWindow.open(map, marker);
+          });
+
+          addMarker({lat:33.689,lng:-78.8866});
+
+          function addMarker(coords){
+            var marker = new google.maps.Marker({
+                position:coords,
+                map:map,
+                icon:'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'
+            });
+          }
+
+          google.maps.event.addListener(map, 'idle', function() {
+            checkBounds()
+          });
+
+          function checkBounds() {
+              console.log('function checkBounds()');
+              var zoomLevel = map.getZoom()
+              var inBounds = false;
+
+              if (map.getBounds().contains(chicago)) {
+                  inBounds = true;
+              }
+
+              console.log("inBounds:"+inBounds+" zoomLevel:"+zoomLevel);
+          }
+        }
+            </script>
+    <script defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyALj3dMM0wz0M-vJi_hqUCOwDazmrWdi8s&callback=initMap">
+    </script>
+</body>
+</html>
